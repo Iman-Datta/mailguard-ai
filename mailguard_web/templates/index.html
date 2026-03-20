@@ -1,9 +1,96 @@
-<form method="POST">
-    {% csrf_token %}
-    <input type="text" name="message" placeholder="Enter message">
-    <button type="submit">Check</button>
-</form>
+{% load static %}
 
-{% if prediction %}
-    <h2>{{ prediction }}</h2>
-{% endif %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SpamSense</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+  </head>
+  <body>
+    <header>
+      <div class="logo">Spam<span>Sense</span></div>
+    </header>
+
+    <main>
+      <!-- LEFT -->
+      <div class="hero">
+        <p class="eyebrow">Naive Bayes · Python · Django</p>
+        <h1>Detect <em>spam</em><br />with machine<br />learning.</h1>
+        <p class="description">
+          A text classification model built by <strong>Iman Datta</strong>,
+          trained on the SMS Spam Collection dataset sourced from Kaggle. Paste
+          any message and the model will instantly predict whether it's spam or
+          legitimate.
+        </p>
+
+        <div class="stats">
+          <div class="stat-item">
+            <span class="stat-value">96%</span>
+            <span class="stat-label">Accuracy</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">NB</span>
+            <span class="stat-label">Algorithm</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">5.5k</span>
+            <span class="stat-label">Samples</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT -->
+      <div class="card">
+        <p class="card-title">Try the classifier</p>
+
+        <form method="POST">
+          {% csrf_token %}
+
+          <!-- Hidden input that Django reads from -->
+
+          <div>
+            <label for="visible-input">Your message</label>
+            <textarea
+              name="message"
+              placeholder="Paste or type a message here…"
+              required
+            ></textarea>
+          </div>
+
+          <button class="btn" type="submit">Analyse Message →</button>
+        </form>
+
+        <!-- Result only shows AFTER form is submitted -->
+        {% if prediction %} {% if prediction == "Spam" %}
+        <div class="result spam">
+          <span class="result-icon">⚠️</span>
+          <div class="result-content">
+            <div class="result-label">Prediction</div>
+            <div class="result-text">This looks like Spam.</div>
+          </div>
+        </div>
+
+        {% elif prediction == "Not Spam" %}
+        <div class="result ham">
+          <span class="result-icon">✅</span>
+          <div class="result-content">
+            <div class="result-label">Prediction</div>
+            <div class="result-text">Looks Legitimate (Ham).</div>
+          </div>
+        </div>
+        {% endif %} {% endif %}
+      </div>
+    </main>
+
+    <footer>
+      Built by Iman Datta &nbsp;·&nbsp; Python &nbsp;·&nbsp; scikit-learn
+      &nbsp;·&nbsp; Django &nbsp;·&nbsp; Dataset from Kaggle
+    </footer>
+  </body>
+</html>

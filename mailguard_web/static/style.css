@@ -1,0 +1,301 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #f5f2ed;
+  --surface: #fdfcfb;
+  --border: #e0dad2;
+  --text: #1a1714;
+  --muted: #8a837a;
+  --accent: #c84b31;
+  --accent-light: #f5eae7;
+  --safe: #2d6a4f;
+  --safe-light: #e8f4ef;
+  --mono: "DM Mono", monospace;
+  --serif: "Instrument Serif", serif;
+  --sans: "DM Sans", sans-serif;
+}
+
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Header ── */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 3rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.logo {
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  letter-spacing: -0.01em;
+}
+
+.logo span {
+  color: var(--accent);
+  font-style: italic;
+}
+
+.badge {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  background: var(--text);
+  color: var(--bg);
+  padding: 0.3rem 0.75rem;
+  border-radius: 2px;
+  letter-spacing: 0.05em;
+}
+
+/* ── Main layout ── */
+main {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 0;
+  max-width: 1100px;
+  margin: 4rem auto;
+  width: 100%;
+  padding: 0 2rem;
+}
+
+/* ── Left: Hero ── */
+.hero {
+  padding-right: 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 1.25rem;
+}
+
+h1 {
+  font-family: var(--serif);
+  font-size: clamp(2.4rem, 4vw, 3.4rem);
+  line-height: 1.1;
+  font-weight: 400;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.02em;
+}
+
+h1 em {
+  color: var(--accent);
+  font-style: italic;
+}
+
+.description {
+  font-size: 1rem;
+  color: var(--muted);
+  line-height: 1.75;
+  max-width: 380px;
+  font-weight: 300;
+}
+
+/* ── Stats row ── */
+.stats {
+  display: flex;
+  gap: 2.5rem;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+}
+
+.stat-value {
+  font-family: var(--serif);
+  font-size: 2rem;
+  color: var(--text);
+  display: block;
+}
+
+.stat-label {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ── Right: Card ── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  align-self: start;
+  position: sticky;
+  top: 2rem;
+}
+
+.card-title {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+label {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--muted);
+  display: block;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.02em;
+}
+
+textarea {
+  width: 100%;
+  height: 140px;
+  padding: 1rem;
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  resize: none;
+  outline: none;
+  line-height: 1.6;
+  transition: border-color 0.2s;
+}
+
+textarea:focus {
+  border-color: var(--text);
+}
+textarea::placeholder {
+  color: var(--muted);
+}
+
+/* hidden input for Django */
+input[type="text"] {
+  display: none;
+}
+
+.btn {
+  width: 100%;
+  padding: 0.9rem;
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  background: var(--text);
+  color: var(--bg);
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btn:hover {
+  opacity: 0.8;
+}
+.btn:active {
+  opacity: 0.6;
+}
+
+/* ── Result ── */
+.result {
+  border-radius: 3px;
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  animation: fadeIn 0.4s ease;
+}
+
+.result.spam {
+  background: var(--accent-light);
+  border: 1px solid #e8bfb8;
+}
+
+.result.ham {
+  background: var(--safe-light);
+  border: 1px solid #aeddc7;
+}
+
+.result-icon {
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.result-label {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 0.15rem;
+}
+
+.result.spam .result-label {
+  color: var(--accent);
+}
+.result.ham .result-label {
+  color: var(--safe);
+}
+
+.result-text {
+  font-size: 0.85rem;
+  color: var(--text);
+  font-weight: 500;
+}
+
+/* ── Footer ── */
+footer {
+  text-align: center;
+  padding: 2rem;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+  border-top: 1px solid var(--border);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  main {
+    grid-template-columns: 1fr;
+  }
+  .hero {
+    padding-right: 0;
+    margin-bottom: 2.5rem;
+  }
+  header {
+    padding: 1.25rem 1.5rem;
+  }
+}

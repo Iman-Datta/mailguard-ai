@@ -1,6 +1,7 @@
 import pickle
 import os
 from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -11,13 +12,19 @@ model = pickle.load(open(model_path, 'rb'))
 vectorizer = pickle.load(open(vectorizer_path, 'rb'))
 
 def home(request):
-    prediction = None
-    
     if request.method == 'POST':
         message = request.POST['message']
         msg_vec = vectorizer.transform([message])
         result = model.predict(msg_vec)[0]
-        
+
         prediction = "Spam" if result == 1 else "Not Spam"
+
+        # Save in session
+        request.session['prediction'] = prediction
+
+        return redirect('home')   # IMPORTANT
+
+    # GET request
+    prediction = request.session.pop('prediction', None)
 
     return render(request, 'index.html', {'prediction': prediction})
