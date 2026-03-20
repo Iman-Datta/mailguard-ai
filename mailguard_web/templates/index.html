@@ -1,0 +1,9 @@
+<form method="POST">
+    {% csrf_token %}
+    <input type="text" name="message" placeholder="Enter message">
+    <button type="submit">Check</button>
+</form>
+
+{% if prediction %}
+    <h2>{{ prediction }}</h2>
+{% endif %}
