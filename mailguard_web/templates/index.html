@@ -6,27 +6,40 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SpamSense</title>
+
     <link
       href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap"
       rel="stylesheet"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+
     <link rel="stylesheet" href="{% static 'style.css' %}" />
   </head>
+
   <body>
+    <!-- HEADER -->
     <header>
       <div class="logo">Spam<span>Sense</span></div>
     </header>
 
+    <!-- MAIN -->
     <main>
       <!-- LEFT -->
       <div class="hero">
         <p class="eyebrow">Naive Bayes · Python · Django</p>
-        <h1>Detect <em>spam</em><br />with machine<br />learning.</h1>
+
+        <h1>
+          Detect <em>spam</em><br />
+          with machine<br />
+          learning.
+        </h1>
+
         <p class="description">
           A text classification model built by <strong>Iman Datta</strong>,
-          trained on the SMS Spam Collection dataset sourced from Kaggle. Paste
-          any message and the model will instantly predict whether it's spam or
-          legitimate.
+          trained on the SMS Spam Collection dataset sourced from Kaggle.
         </p>
 
         <div class="stats">
@@ -34,10 +47,12 @@
             <span class="stat-value">96%</span>
             <span class="stat-label">Accuracy</span>
           </div>
+
           <div class="stat-item">
             <span class="stat-value">NB</span>
             <span class="stat-label">Algorithm</span>
           </div>
+
           <div class="stat-item">
             <span class="stat-value">5.5k</span>
             <span class="stat-label">Samples</span>
@@ -49,27 +64,35 @@
       <div class="card">
         <p class="card-title">Try the classifier</p>
 
-        <form method="POST">
+        <!-- FORM -->
+        <form method="POST" action="{% url 'predict' %}" id="spam-form">
           {% csrf_token %}
 
-          <!-- Hidden input that Django reads from -->
-
           <div>
-            <label for="visible-input">Your message</label>
+            <label>Your message</label>
+
             <textarea
               name="message"
-              placeholder="Paste or type a message here…"
               required
+              placeholder="Type message..."
             ></textarea>
           </div>
 
           <button class="btn" type="submit">Analyse Message →</button>
         </form>
 
-        <!-- Result only shows AFTER form is submitted -->
+        <!-- LAST MESSAGE -->
+        {% if message %}
+        <div style="margin-top: 1rem; font-size: 0.8rem; color: gray">
+          <strong>Last message:</strong> "{{ message }}"
+        </div>
+        {% endif %}
+
+        <!-- RESULT -->
         {% if prediction %} {% if prediction == "Spam" %}
         <div class="result spam">
           <span class="result-icon">⚠️</span>
+
           <div class="result-content">
             <div class="result-label">Prediction</div>
             <div class="result-text">This looks like Spam.</div>
@@ -79,6 +102,7 @@
         {% elif prediction == "Not Spam" %}
         <div class="result ham">
           <span class="result-icon">✅</span>
+
           <div class="result-content">
             <div class="result-label">Prediction</div>
             <div class="result-text">Looks Legitimate (Ham).</div>
@@ -88,9 +112,21 @@
       </div>
     </main>
 
+    <!-- FOOTER -->
     <footer>
-      Built by Iman Datta &nbsp;·&nbsp; Python &nbsp;·&nbsp; scikit-learn
-      &nbsp;·&nbsp; Django &nbsp;·&nbsp; Dataset from Kaggle
+      Built by Iman Datta · Python · scikit-learn · Django · Dataset from Kaggle
     </footer>
+
+    <script>
+      window.addEventListener("load", function () {
+        const form = document.getElementById("spam-form");
+
+        const navEntries = performance.getEntriesByType("navigation");
+
+        if (navEntries.length > 0 && navEntries[0].type === "reload") {
+          form.reset();
+        }
+      });
+    </script>
   </body>
 </html>

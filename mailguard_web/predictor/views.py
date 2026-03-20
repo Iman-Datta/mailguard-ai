@@ -12,19 +12,21 @@ model = pickle.load(open(model_path, 'rb'))
 vectorizer = pickle.load(open(vectorizer_path, 'rb'))
 
 def home(request):
+    return render(request, 'index.html')
+
+
+def predict(request):
     if request.method == 'POST':
-        message = request.POST['message']
+        message = request.POST.get('message')
+
         msg_vec = vectorizer.transform([message])
         result = model.predict(msg_vec)[0]
 
         prediction = "Spam" if result == 1 else "Not Spam"
 
-        # Save in session
-        request.session['prediction'] = prediction
+        return render(request, 'index.html', {
+            'prediction': prediction,
+            'message': message
+        })
 
-        return redirect('home')   # IMPORTANT
-
-    # GET request
-    prediction = request.session.pop('prediction', None)
-
-    return render(request, 'index.html', {'prediction': prediction})
+    return redirect('home')
