@@ -91,7 +91,9 @@
         <!-- RESULT -->
         {% if prediction %} {% if prediction == "Spam" %}
         <div class="result spam">
-          <span class="result-icon">⚠️</span>
+          <span class="result-icon">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+          </span>
 
           <div class="result-content">
             <div class="result-label">Prediction</div>
@@ -101,7 +103,9 @@
 
         {% elif prediction == "Not Spam" %}
         <div class="result ham">
-          <span class="result-icon">✅</span>
+          <span class="result-icon">
+            <i class="fa-solid fa-circle-check"></i>
+          </span>
 
           <div class="result-content">
             <div class="result-label">Prediction</div>
